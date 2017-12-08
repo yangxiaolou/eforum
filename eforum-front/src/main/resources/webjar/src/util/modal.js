@@ -3,7 +3,7 @@
  */
 function Modal() {
     this.reg = new RegExp("\\[([^\\[\\]]*?)\\]", 'igm');
-    this.ahtml = "<div class=\"modal-dialog modal-sm\">\n" +
+    this.ahtml = "<div class=\"modal-dialog modal-sm\" style='margin-top: 15%;'>\n" +
         "        <div class=\"modal-content\">\n" +
         "            <div class=\"modal-header\">\n" +
         "                <button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">×</span><span class=\"sr-only\">Close</span></button>\n" +
@@ -23,16 +23,17 @@ function Modal() {
 
 Modal.fn = Modal.prototype;
 
+Modal.fn.$ = require('jquery');
 
 /**
  * eforum弹框alert
  */
-Modal.fn.showAlert = function (message,sec) {
+Modal.fn.alert = function (message,sec) {
     message = message || "error";
     sec = sec || 1500;
     //创建弹出内容
-    angular.element(document.querySelector("#eforumAlert div p")).eq(0).html(message);
-    angular.element(document.querySelector("#eforumAlert")).css("display", "block");
+    this.$(document.querySelector("#eforumAlert div p")).eq(0).html(message);
+    this.$(document.querySelector("#eforumAlert")).css("display", "block");
     //sec秒后隐藏
     setTimeout('angular.element(document.querySelector("#eforumAlert")).css("display","none");', sec);
 }
@@ -55,7 +56,7 @@ Modal.fn.showAlert = function (message,sec) {
             }
  */
 Modal.fn.showModal = function(options){
-    var eforum_modal = angular.element(document.querySelector("#eforum-modal"));
+    var eforum_modal = this.$(document.querySelector("#eforum-modal"));
     var ops = {
         msg: "提示内容",
         title: "操作提示",
@@ -98,24 +99,17 @@ Modal.fn.showModal = function(options){
 
 
 /***
- * 提示框(提示标题、提示内容、确定按钮)
- * options参数说明
- * {
-                msg: "提示内容",
-                title: "操作提示",
-                btnOk: "确定",
-                callback:function(data){        //按钮触发回调
-
-                    点击确定  data = {"result":true,text:输入的内容}
-
-                    点击取消或关闭  data = {"result":false,text:""}
-
-                }
-            }
-    sec 过几秒自动关机  默认为空
+ * 提示框
+ * message : 提示内容
+ * sec : 过几秒自动关机  默认为空
  */
-Modal.fn.showMsg = function(options,sec) {
-    var eforum_modal = angular.element(document.querySelector("#eforum-modal"));
+Modal.fn.showMsg = function(message,sec) {
+    var options = {
+        msg : message,
+        title : "提示",
+        btnOk : "确定"
+    }
+    var eforum_modal = this.$(document.querySelector("#eforum-modal"));
     eforum_modal.html(this.ahtml);  // 复原
     eforum_modal.find('.ok').removeClass('btn-success').addClass('btn-primary');
     eforum_modal.find('.cancel').hide();
@@ -145,7 +139,7 @@ Modal.fn.showMsg = function(options,sec) {
  返回值:点击确定返回ture 否则返回false
  */
 Modal.fn.showConfirm = function(options) {
-    var eforum_modal = angular.element(document.querySelector("#eforum-modal"));
+    var eforum_modal = this.$(document.querySelector("#eforum-modal"));
     eforum_modal.html(this.ahtml); // 复原
     eforum_modal.find('.ok').removeClass('btn-primary').addClass('btn-success');
     eforum_modal.find('.cancel').show();
@@ -168,7 +162,7 @@ Modal.fn.showConfirm = function(options) {
             }
  */
 Modal.fn.showPrompt = function(options) {
-    var eforum_modal = angular.element(document.querySelector("#eforum-modal"));
+    var eforum_modal = this.$(document.querySelector("#eforum-modal"));
     eforum_modal.html(this.ahtml); // 复原
     eforum_modal.find('.ok').removeClass('btn-primary').addClass('btn-success');
     eforum_modal.find('p').hide();

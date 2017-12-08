@@ -1,0 +1,28 @@
+<div  ng-controller="operationArticleController" class="modal ng-scope center am-fade-and-scale" tabindex="-1" role="dialog" aria-hidden="true"
+     style="z-index: 1050; display: block;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" ng-click="$hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">
+                    帖子管理
+                </h4>
+            </div>
+            <div class="modal-body row">
+                <p class="col-xs-2 col-xs-offset-2">是否精华：</p>
+                <div class="switch col-xs-2">
+                    <input type="checkbox" id="isJH" ng-model="isJH" />
+                </div>
+                <p class="col-xs-2">是否置顶：</p>
+                <div class="switch col-xs-2">
+                    <input type="checkbox" id="isZD"  ng-model="isZD"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="save()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

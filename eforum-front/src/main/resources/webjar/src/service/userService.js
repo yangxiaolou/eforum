@@ -1,26 +1,54 @@
 var app = require('../app');
-var RestTemplate = require('./restTemplate');
 
-app.service('userService', function($http) {
-    var rest = new RestTemplate($http);
+app.service('userService', function ($http, restService) {
 
-	this.login = function(name, password, rememberMe) {
-	    return rest.post('/login', {
-	        name: name,
+    this.login = function (name, password, rememberMe, successCallBack) {
+        restService.post('/login', {
+            name: name,
             password: password,
             rememberMe: rememberMe
-	    });
-	}
+        }, successCallBack);
+    };
 
-	this.logout = function() {
-	    return rest.post('/logout');
-	}
+    this.logout = function (successCallBack) {
+        restService.post('/logout', null, successCallBack);
+    };
 
-	this.addUser = function(name, email, password) {
-	    return rest.post('/user', {
-	        name: name,
-	        email: email,
-	        password: password
-	    });
-	}
+    this.addUser = function (name, email, password, successCallBack) {
+        restService.post('/user', {
+            name: name,
+            email: email,
+            password: password
+        }, successCallBack);
+    };
+
+    this.findUser = function (userId, successCallBack) {
+        restService.post('/user/findUser', {
+            userId: userId
+        }, successCallBack);
+    };
+
+    /**
+     * 查询用户是否被禁言了
+     * @param userId
+     * @param successCallBack
+     */
+    this.userIsJy = function (userId, successCallBack) {
+        restService.post('/user/userIsJy', {
+            id: userId
+        }, successCallBack);
+    };
+
+    /**
+     * 禁言或者解禁用户
+     * @param userId
+     * @param jy 1禁言，0解禁
+     * @param successCallBack
+     */
+    this.shutupOrReleaseUser = function (userId, jy, successCallBack) {
+        restService.post('/user/shutupOrReleaseUser', {
+            userId: userId,
+            isJy: jy
+        }, successCallBack);
+    }
 });

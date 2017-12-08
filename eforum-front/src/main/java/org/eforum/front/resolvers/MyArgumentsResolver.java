@@ -39,7 +39,6 @@ public class MyArgumentsResolver implements HandlerMethodArgumentResolver {
 		this.dao = dao;
 	}
 
-	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.hasParameterAnnotation(AutoLoad.class);
 	}
@@ -48,7 +47,6 @@ public class MyArgumentsResolver implements HandlerMethodArgumentResolver {
 	 * 解析参数
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		System.out.println(webRequest);
@@ -72,7 +70,7 @@ public class MyArgumentsResolver implements HandlerMethodArgumentResolver {
 		Object param = paramClass.newInstance();
 		if (param instanceof BaseEntity) {
 			String idStr = String.valueOf(map.get("id"));
-			if (!StringUtils.isNullOrEmpty(idStr)) {
+			if (!StringUtils.isNullOrEmpty(idStr) && !"null".equals(idStr)) {
 				Long id = Long.valueOf(idStr);
 				param = dao.get(paramClass, id);
 				if (null == param) {

@@ -3,7 +3,11 @@ require('angular-route');
 require('angular-cookies');
 require('./lib/paging/tm.pagination');
 require('./lib/crop/ng-img-crop');
-var app = angular.module('app', ['ngRoute','ngCookies','tm.pagination', 'ngImgCrop']);
+require('angular-strap');	//angularStrap
+require('angular-animate');	//angular动画，angularStrap需要该插件
+require('angular-motion');	//引入css，angularStrap需要
+require('angular-sanitize');
+var app = angular.module('app', ['ngRoute','ngCookies','tm.pagination', 'ngImgCrop', 'mgcrea.ngStrap', 'ngAnimate', 'ngSanitize']);
 //angularjs 1.6.0 以上版本需要配置,否则路由无法正常使用
 app.config(["$locationProvider",function($locationProvider){
 	$locationProvider.hashPrefix("");
@@ -65,9 +69,14 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
 	});
 }]);
 
-app.run(function($rootScope) {
+app.run(function($rootScope, globalService) {
 	// 路由监听事件 
 	$rootScope.$on('$routeChangeStart', function(event, next, current) {
+		if(current && next && "views/article.html" == current.$$route.templateUrl && "views/articleList.html" == next.$$route.templateUrl){
+            globalService.isFromArticleToList = true;
+		} else {
+            globalService.isFromArticleToList = false;
+		}
 	});
 });
 
